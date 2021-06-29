@@ -3,7 +3,7 @@ import uvicorn
 import pandas as pd
 import json
 import statistics
-import spacy
+#import spacy
 #from spacytextblob.spacytextblob import SpacyTextBlob
 from datetime import datetime
 
