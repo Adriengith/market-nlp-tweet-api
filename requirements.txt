@@ -2,3 +2,7 @@ fastapi
 uvicorn
 dnspython
 pandas
+statistics
+spacy
+spacytextblob.spacytextblob
+datetime

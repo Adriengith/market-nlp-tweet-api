@@ -2,9 +2,10 @@ from fastapi import FastAPI
 import uvicorn
 import pandas as pd
 import json
-
-
-
+import statistics
+import spacy
+from spacytextblob.spacytextblob import SpacyTextBlob
+from datetime import datetime
 
 
 app = FastAPI()
@@ -15,16 +16,29 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello Simplon"}
+    return {"message": "Hello"}
 
 
 @app.get("/sentiments/{key_word}")
-async def test1(key_word):
+async def sentiments(key_word):
     df = pd.read_csv("tweet.csv", sep=",")
     df_target = df[df['body'].str.contains(f"{key_word}")]
     result = df_target.to_json(orient="split")
     parsed = json.loads(result)
-    return f"Nombre de tweets trouvées pour '{key_word}' = {len(df_target)}", parsed
+
+    #classer les phrases par rapport à leurs positivités 
+    list_polarity = []
+
+    for element in df_target['body'].values:
+        nlp = spacy.load('en_core_web_sm')
+        nlp.add_pipe('spacytextblob')
+        doc = nlp(element)
+        list_polarity.append(doc._.polarity)
+        
+    round_polarity = round(statistics.mean(list_polarity),3)
+
+
+    return f"Nombre de tweets trouvées pour '{key_word}' = {len(df_target)}",f"Moyenne des sentiments = {round_polarity}", parsed
 
 @app.get("/test2")
 async def test2():
