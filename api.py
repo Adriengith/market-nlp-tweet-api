@@ -3,8 +3,8 @@ import uvicorn
 import pandas as pd
 import json
 import statistics
-#import spacy
-#from spacytextblob.spacytextblob import SpacyTextBlob
+import spacy
+from spacytextblob.spacytextblob import SpacyTextBlob
 from datetime import datetime
 
 
@@ -36,7 +36,7 @@ async def sentiments(key_word):
     #     list_polarity.append(doc._.polarity)
         
     #round_polarity = round(statistics.mean(list_polarity),3)
-    round_polarity = [0,100]
+    round_polarity = 20
 
 
     return f"Nombre de tweets trouvées pour '{key_word}' = {len(df_target)}",f"Moyenne des sentiments = {round_polarity}", parsed
