@@ -29,13 +29,14 @@ async def sentiments(key_word):
     #classer les phrases par rapport à leurs positivités 
     list_polarity = []
 
-    for element in df_target['body'].values:
-        nlp = spacy.load('en_core_web_sm')
-        nlp.add_pipe('spacytextblob')
-        doc = nlp(element)
-        list_polarity.append(doc._.polarity)
+    # for element in df_target['body'].values:
+    #     nlp = spacy.load('en_core_web_sm')
+    #     nlp.add_pipe('spacytextblob')
+    #     doc = nlp(element)
+    #     list_polarity.append(doc._.polarity)
         
-    round_polarity = round(statistics.mean(list_polarity),3)
+    #round_polarity = round(statistics.mean(list_polarity),3)
+    round_polarity = [0,100]
 
 
     return f"Nombre de tweets trouvées pour '{key_word}' = {len(df_target)}",f"Moyenne des sentiments = {round_polarity}", parsed
