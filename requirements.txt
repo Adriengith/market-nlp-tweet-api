@@ -3,6 +3,3 @@ uvicorn
 dnspython
 pandas
 statistics
-spacy
-SpacyTextBlob
-datetime

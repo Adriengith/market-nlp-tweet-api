@@ -12,7 +12,9 @@ app = FastAPI()
 
 
 
-
+# spacy
+# SpacyTextBlob
+# datetime
 
 @app.get("/")
 async def root():
