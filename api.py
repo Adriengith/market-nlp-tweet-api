@@ -3,8 +3,8 @@ import uvicorn
 import pandas as pd
 import json
 import statistics
-#import spacy
-from spacytextblob.spacytextblob import SpacyTextBlob
+import spacy
+#from spacytextblob.spacytextblob import SpacyTextBlob
 from datetime import datetime
 
 
@@ -12,9 +12,7 @@ app = FastAPI()
 
 
 
-# spacy
-# SpacyTextBlob
-# datetime
+
 
 @app.get("/")
 async def root():
