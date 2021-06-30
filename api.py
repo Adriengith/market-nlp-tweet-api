@@ -54,5 +54,39 @@ async def sentiments(key_word, start_date, end_date):
     return f"Nombre de tweets trouvées pour '{key_word}' = {len(df_target)}",f"Moyenne des sentiments = {round_polarity}",f"Total comments = A FAIRE",f"Total retweet = A FAIRE",f"Total like = A FAIRE", parsed
 
 
+
+
+#1 : URL : mettre un key word (citroen) => la page devra afficher nb likes, commebt, et partage
+
+@app.get("/like_comment_partage/{key_word}")
+async def like_comment_partage(key_word):
+    return f"pour le keyword {key_word}, on a XXX like, XXX comment ...."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
