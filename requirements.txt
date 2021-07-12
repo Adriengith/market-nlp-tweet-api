@@ -4,4 +4,3 @@ dnspython
 pandas
 statistics
 datetime
-time
