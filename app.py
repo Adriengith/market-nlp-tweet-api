@@ -8,10 +8,13 @@ import seaborn as sns
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
+# uvicorn api:app --reload    #streamlit run api_sl.py
+#procfil : web: uvicorn api:app --host=0.0.0.0 --port=${PORT:-5000}        web: sh setup.sh && streamlit run api_sl.py    
 
 def main():
 
     df = load_data()
+    df_main = pd.read_csv('tweet.csv', sep=",")
 
     df_airbus = pd.read_csv('airbus.csv', sep=",")
     df_atos = pd.read_csv('atos.csv', sep=",")
@@ -23,62 +26,80 @@ def main():
     df_jpmorgan = pd.read_csv('jpmorgan.csv', sep=",")
     df_berkshirehathaway = pd.read_csv('berkshirehathaway.csv', sep=",")
     st.set_option('deprecation.showPyplotGlobalUse', False)
-    page = st.sidebar.selectbox("Choose a page", ['Homepage', 'Exploration', 'Prediction'])
+    page = st.sidebar.selectbox("Choose a page", ['Données récupérées', 'Sociétés françaises', 'Sociétés américaines'])
 
+    if page == 'Données récupérées':
+        st.title('Données récupérées')
+        st.dataframe(df_main[0:100])
 
-
-    if page == 'Homepage':
-        st.title('Sociétés françaises :')
-        st.text('Airbus')
+    if page == 'Sociétés françaises':
+        st.title('Sociétés françaises données de 2019.06 à 2019.12 :')
+        st.title('Airbus')
         st.text(f"Nombre de tweets trouvées pour Airbus = {len(df_airbus)}\nMoyenne des sentiments = {df_airbus['polarity_spacy'].mean()}\nTotal comments = {df_airbus.comment_num.sum()}\nTotal retweet = {df_airbus.retweet_num.sum()}\nTotal like = {df_airbus.like_num.sum()}")
-        st.dataframe(df_airbus)
-        sns.lineplot(x='post_date', y='polarity_spacy', data=df_airbus)
-        st.pyplot()
+        if st.checkbox('Montrer le dataframe Airbus'):
+            st.dataframe(df_airbus)
+        if st.checkbox('Montrer le graphique polarity_spacy Airbus'):
+            sns.lineplot(x='post_date', y='polarity_spacy', data=df_airbus).set(xticklabels=[])
+            st.pyplot()
 
-        st.text('Atos')
+        st.title('Atos')
         st.text(f"Nombre de tweets trouvées pour Atos = {len(df_atos)}\nMoyenne des sentiments = {df_atos['polarity_spacy'].mean()}\nTotal comments = {df_atos.comment_num.sum()}\nTotal retweet = {df_atos.retweet_num.sum()}\nTotal like = {df_atos.like_num.sum()}")
-        st.dataframe(df_atos)
-        sns.lineplot(x='post_date', y='polarity_spacy', data=df_atos)
-        st.pyplot()
+        if st.checkbox('Montrer le dataframe Atos'):
+            st.dataframe(df_atos)
+        if st.checkbox('Montrer le graphique polarity_spacy Atos'):
+            sns.lineplot(x='post_date', y='polarity_spacy', data=df_atos).set(xticklabels=[])
+            st.pyplot()
 
-        st.text('Renault')
+        st.title('Renault')
         st.text(f"Nombre de tweets trouvées pour Renault = {len(df_renault)}\nMoyenne des sentiments = {df_renault['polarity_spacy'].mean()}\nTotal comments = {df_renault.comment_num.sum()}\nTotal retweet = {df_renault.retweet_num.sum()}\nTotal like = {df_renault.like_num.sum()}")
-        st.dataframe(df_renault)
-        sns.lineplot(x='post_date', y='polarity_spacy', data=df_renault)
-        st.pyplot()
+        if st.checkbox('Montrer le dataframe Renault'):
+            st.dataframe(df_renault)
+        if st.checkbox('Montrer le graphique polarity_spacy Renault'):
+            sns.lineplot(x='post_date', y='polarity_spacy', data=df_renault).set(xticklabels=[])
+            st.pyplot()
 
-        st.text('Sanofi')
+        st.title('Sanofi')
         st.text(f"Nombre de tweets trouvées pour Sanofi = {len(df_sanofi)}\nMoyenne des sentiments = {df_sanofi['polarity_spacy'].mean()}\nTotal comments = {df_sanofi.comment_num.sum()}\nTotal retweet = {df_sanofi.retweet_num.sum()}\nTotal like = {df_sanofi.like_num.sum()}")
-        st.dataframe(df_sanofi)
-        sns.lineplot(x='post_date', y='polarity_spacy', data=df_sanofi)
-        st.pyplot()
+        if st.checkbox('Montrer le dataframe Sanofi'):
+            st.dataframe(df_sanofi)
+        if st.checkbox('Montrer le graphique polarity_spacy Sanofi'):
+            sns.lineplot(x='post_date', y='polarity_spacy', data=df_sanofi).set(xticklabels=[])
+            st.pyplot()
 
 
-
-        st.title('Sociétés américaines :')
-        st.text('Johnson&Johnson')
+    if page == 'Sociétés américaines':
+        st.title('Sociétés américaines données de 2019.06 à 2019.12 :')
+        st.title('Johnson&Johnson')
         st.text(f"Nombre de tweets trouvées pour Johnson = {len(df_johnsonjohnson)}\nMoyenne des sentiments = {df_johnsonjohnson['polarity_spacy'].mean()}\nTotal comments = {df_johnsonjohnson.comment_num.sum()}\nTotal retweet = {df_johnsonjohnson.retweet_num.sum()}\nTotal like = {df_johnsonjohnson.like_num.sum()}")
-        st.dataframe(df_johnsonjohnson)
-        sns.lineplot(x='post_date', y='polarity_spacy', data=df_johnsonjohnson)
-        st.pyplot()
+        if st.checkbox('Montrer le dataframe Johnson&Johnson'):
+            st.dataframe(df_johnsonjohnson)
+        if st.checkbox('Montrer le graphique polarity_spacy Johnson&Johnson'):
+            sns.lineplot(x='post_date', y='polarity_spacy', data=df_johnsonjohnson).set(xticklabels=[])
+            st.pyplot()
 
-        st.text('Visa')
+        st.title('Visa')
         st.text(f"Nombre de tweets trouvées pour Visa = {len(df_visa)}\nMoyenne des sentiments = {df_visa['polarity_spacy'].mean()}\nTotal comments = {df_visa.comment_num.sum()}\nTotal retweet = {df_visa.retweet_num.sum()}\nTotal like = {df_visa.like_num.sum()}")
-        st.dataframe(df_visa)
-        sns.lineplot(x='post_date', y='polarity_spacy', data=df_visa)
-        st.pyplot()
+        if st.checkbox('Montrer le dataframe Visa'):
+            st.dataframe(df_visa)
+        if st.checkbox('Montrer le graphique polarity_spacy Visa'):
+            sns.lineplot(x='post_date', y='polarity_spacy', data=df_visa).set(xticklabels=[])
+            st.pyplot()
 
-        st.text('JPMorgan')
+        st.title('JPMorgan')
         st.text(f"Nombre de tweets trouvées pour JPMorgan = {len(df_jpmorgan)}\nMoyenne des sentiments = {df_jpmorgan['polarity_spacy'].mean()}\nTotal comments = {df_jpmorgan.comment_num.sum()}\nTotal retweet = {df_jpmorgan.retweet_num.sum()}\nTotal like = {df_jpmorgan.like_num.sum()}")
-        st.dataframe(df_jpmorgan)
-        sns.lineplot(x='post_date', y='polarity_spacy', data=df_jpmorgan)
-        st.pyplot()
+        if st.checkbox('Montrer le dataframe JPMorgan'):
+            st.dataframe(df_jpmorgan)
+        if st.checkbox('Montrer le graphique polarity_spacy JPMorgan'):
+            sns.lineplot(x='post_date', y='polarity_spacy', data=df_jpmorgan).set(xticklabels=[])
+            st.pyplot()
 
-        st.text('BerkshireHathaway')
+        st.title('BerkshireHathaway')
         st.text(f"Nombre de tweets trouvées pour BerkshireHathaway = {len(df_berkshirehathaway)}\nMoyenne des sentiments = {df_berkshirehathaway['polarity_spacy'].mean()}\nTotal comments = {df_berkshirehathaway.comment_num.sum()}\nTotal retweet = {df_berkshirehathaway.retweet_num.sum()}\nTotal like = {df_berkshirehathaway.like_num.sum()}")
-        st.dataframe(df_berkshirehathaway)
-        sns.lineplot(x='post_date', y='polarity_spacy', data=df_berkshirehathaway)
-        st.pyplot()
+        if st.checkbox('Montrer le dataframe BerkshireHathaway'):
+            st.dataframe(df_berkshirehathaway)
+        if st.checkbox('Montrer le graphique polarity_spacy BerkshireHathaway'):
+            sns.lineplot(x='post_date', y='polarity_spacy', data=df_berkshirehathaway).set(xticklabels=[])
+            st.pyplot()
 
     elif page == 'Exploration':
         st.title('Explore the Wine Data-set')
@@ -93,7 +114,7 @@ def main():
         st.text('Effect of the different classes')
         fig = sns.pairplot(df, vars=['magnesium', 'flavanoids', 'nonflavanoid_phenols', 'proline'], hue='alcohol')
         st.pyplot(fig)
-    else:
+    elif page == 'page3':
         st.title('Modelling')
         model, accuracy = train_model(df)
         st.write('Accuracy: ' + str(accuracy))
