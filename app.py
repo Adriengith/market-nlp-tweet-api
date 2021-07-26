@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 def main():
 
     df = load_data()
-    df_main = pd.read_csv('tweet.csv', sep=",")
+    df_main = pd.read_csv('tweets_100.csv', sep=",")
 
     df_airbus = pd.read_csv('airbus.csv', sep=",")
     df_atos = pd.read_csv('atos.csv', sep=",")
