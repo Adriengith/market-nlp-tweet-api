@@ -26,7 +26,7 @@ def main():
     df_jpmorgan = pd.read_csv('jpmorgan.csv', sep=",")
     df_berkshirehathaway = pd.read_csv('berkshirehathaway.csv', sep=",")
     st.set_option('deprecation.showPyplotGlobalUse', False)
-    page = st.sidebar.selectbox("Choose a page", ['Données récupérées', 'Sociétés françaises', 'Sociétés américaines'])
+    page = st.sidebar.selectbox("Selectionne une page", ['Données récupérées', 'Sociétés françaises', 'Sociétés américaines'])
 
     if page == 'Données récupérées':
         st.title('Données récupérées')
