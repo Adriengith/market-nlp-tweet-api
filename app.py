@@ -8,7 +8,7 @@ import seaborn as sns
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
-# uvicorn api:app --reload    #streamlit run api_sl.py
+# uvicorn api:app --reload    #streamlit run app.py
 #procfil : web: uvicorn api:app --host=0.0.0.0 --port=${PORT:-5000}        web: sh setup.sh && streamlit run api_sl.py    
 
 def main():
@@ -25,8 +25,15 @@ def main():
     df_visa = pd.read_csv('visa.csv', sep=",")
     df_jpmorgan = pd.read_csv('jpmorgan.csv', sep=",")
     df_berkshirehathaway = pd.read_csv('berkshirehathaway.csv', sep=",")
+
+    df_total_fr = pd.concat([df_airbus, df_atos, df_renault, df_sanofi], ignore_index=True,)
+    df_total_us = pd.concat([df_johnsonjohnson, df_visa, df_jpmorgan, df_berkshirehathaway], ignore_index=True,)
+    
+    df_total_fr.to_csv('df_total_fr.csv')
+    df_total_us.to_csv('df_total_us.csv')
+
     st.set_option('deprecation.showPyplotGlobalUse', False)
-    page = st.sidebar.selectbox("Selectionne une page", ['Données récupérées', 'Sociétés françaises', 'Sociétés américaines'])
+    page = st.sidebar.selectbox("Selectionne une page", ['Données récupérées', 'Sociétés françaises', 'Sociétés américaines','Comparaisons FR vs US'])
 
     if page == 'Données récupérées':
         st.title('Données récupérées')
@@ -100,6 +107,36 @@ def main():
         if st.checkbox('Montrer le graphique polarity_spacy BerkshireHathaway'):
             sns.lineplot(x='post_date', y='polarity_spacy', data=df_berkshirehathaway).set(xticklabels=[])
             st.pyplot()
+
+
+    if page == 'Comparaisons FR vs US':
+        st.title('Comparaisons sociétés françaises et américaines données de 2019.06 à 2019.12 :')
+        
+        st.title('Total Sociétés Françaises')
+        st.text(f"Nombre total de tweets trouvées pour les sociétés françaises = {len(df_total_fr)} \nMoyenne des sentiments = {df_total_fr['polarity_spacy'].mean()} \nTotal comments = {df_total_fr.comment_num.sum()} \nTotal retweet = {df_total_fr.retweet_num.sum()} \nTotal like = {df_total_fr.like_num.sum()}")
+        if st.checkbox('Montrer le dataframe de Sociétés Françaises'):
+            st.dataframe(df_total_fr)
+        if st.checkbox('Montrer le graphique polarity_spacy Sociétés Françaises'):
+            sns.lineplot(x='post_date', y='polarity_spacy', data=df_total_fr).set(xticklabels=[])
+            st.pyplot()
+        if st.checkbox('graphique polarity_spacy Fr'): 
+            df_total_fr.hist()
+            plt.show()
+            st.pyplot()
+            
+        st.title('Total Sociétés Américaines')
+        st.text(f"Nombre total de tweets trouvées pour les sociétés Américaines = {len(df_total_us)} \nMoyenne des sentiments = {df_total_us['polarity_spacy'].mean()} \nTotal comments = {df_total_us.comment_num.sum()} \nTotal retweet = {df_total_us.retweet_num.sum()} \nTotal like = {df_total_us.like_num.sum()}")
+        if st.checkbox('Montrer le dataframe de Sociétés Américaines'):
+            st.dataframe(df_total_us)
+        if st.checkbox('Montrer le graphique polarity_spacy Sociétés Américaines'):
+            sns.lineplot(x='post_date', y='polarity_spacy', data=df_total_us).set(xticklabels=[])
+            st.pyplot()
+        if st.checkbox('graphique polarity_spacy US'): 
+            df_total_us.hist()
+            plt.show()
+            st.pyplot()
+
+
 
     elif page == 'Exploration':
         st.title('Explore the Wine Data-set')
